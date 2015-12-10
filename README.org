@@ -1,11 +1,16 @@
 
-* System-Dependency-Visualizer  - visualize the library dependency of an asdf/quicklisp system
+* ASDF-VIZ
 
-This is a roswell-only utility library.
+This is a roswell-compatible command-line utility distributed by quicklisp,
+useful for visualizing the indirect library dependencies of asdf systems.
 
 ** Usage
 
-+ =$ visualize-asdf [output.png] [system-name]...=
++ =$ asdf-viz [output.png] [system-name]...=
+
+Sample output of =asdf-viz asdf-viz.png asdf-viz= :
+
+[[./asdf-viz.png]]
 
 ** Dependencies
 
@@ -13,7 +18,7 @@ This is a roswell-only utility library.
 
 ** Installation
 
-+ =ros install dependency-visualizer=
++ =ros install asdf-viz=
 + set up PATH to include =.roswell/bin/= 
 
 ** Author

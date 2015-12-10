@@ -6,12 +6,11 @@ dependencies:
   pre:
     - sudo apt-get install graphviz
     - curl -L https://raw.githubusercontent.com/snmsts/roswell/master/scripts/install-for-ci.sh | sh
-    - ros install system-dependency-visualizer
+    - ros install asdf-viz
   cache_directories:
     - ~/.roswell/
 
 test:
   override:
-    - visualize-asdf anaphora.png anaphora
-    - visualize-asdf anaphora-and-woo.png anaphora woo
+    - asdf-viz asdf-viz.png asdf-viz
 
