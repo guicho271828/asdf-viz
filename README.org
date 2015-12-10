@@ -1,21 +1,20 @@
 
 * System-Dependency-Visualizer  - visualize the library dependency of an asdf/quicklisp system
 
-** Dependencies
-
-[[https://github.com/snmsts/roswell/][roswell]].
-
-** Installation
-
-+ =ros install dependency-visualizer=
-  + this issues =(quickload :dependency-visualizer)= and locate =roswell/visualize-asdf.ros=
-+ set up PATH to include =.roswell/bin/= 
-
 This is a roswell-only utility library.
 
 ** Usage
 
-+ =visualize-asdf [output.png] [system-name]...=
++ =$ visualize-asdf [output.png] [system-name]...=
+
+** Dependencies
+
+[[https://github.com/snmsts/roswell/][roswell]] and graphviz.
+
+** Installation
+
++ =ros install dependency-visualizer=
++ set up PATH to include =.roswell/bin/= 
 
 ** Author
 
