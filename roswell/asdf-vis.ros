@@ -1,0 +1,25 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(ql:quickload :asdf-viz :silent t)
+(in-package :asdf-viz)
+(defun main (&rest argv)
+  (declare (ignorable argv))
+  (match argv
+    ((list* png systems)
+     (dolist (s systems)
+       (handler-case
+           (ql:quickload s :silent t)
+         (quicklisp-client:system-not-found ()
+           (format *error-output* "System ~a not located by quicklisp, skipping" s))
+         (error (c)
+           (format *error-output* "~a occured during quickloading system ~a, skipping"
+                   (type-of c) s))))
+     (visualize-asdf-hierarchy
+      png
+      (mapcar (lambda (s)
+                (asdf:find-system (read-from-string s)))
+              systems)
+      'dependson))))

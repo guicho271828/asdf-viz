@@ -1,0 +1,17 @@
+machine:
+  environment:
+    PATH: ~/.roswell/bin:$PATH
+
+dependencies:
+  pre:
+    - sudo apt-get install graphviz
+    - curl -L https://raw.githubusercontent.com/snmsts/roswell/master/scripts/install-for-ci.sh | sh
+    - ros install system-dependency-visualizer
+  cache_directories:
+    - ~/.roswell/
+
+test:
+  override:
+    - visualize-asdf anaphora.png anaphora
+    - visualize-asdf anaphora-and-woo.png anaphora woo
+
