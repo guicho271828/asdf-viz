@@ -13,7 +13,7 @@ exec ros -Q -- $0 "$@"
      (format *error-output* "Usage: asdf-viz [[-e excluded system]...] [png-path] [asdf-systems...]~%")
      (format *error-output* "Example: asdf-viz asdf-viz.png asdf-viz~%")
      1)
-    ((list* "-e" excluded rest)
+    ((list* (or "-e" "--exclude") excluded rest)
      (let ((*excluded* (cons excluded *excluded*)))
        (apply #'main rest)))
     ((list* png systems)
