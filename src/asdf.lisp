@@ -6,6 +6,8 @@
 
 (in-package :asdf-viz)
 
+(defvar *excluded* nil)
+
 (defmethod graph-object-node ((graph (eql 'dependson)) (object asdf:component))
   (make-instance 'node
                  :attributes (list :label (asdf:component-name object)
@@ -28,10 +30,13 @@
     (name name)))
 
 (defmethod graph-object-points-to ((graph (eql 'dependson)) (object asdf:system))
-  (remove nil
-          (mapcar (lambda (dependency-def)
-                    (asdf:find-system (dependency-name dependency-def)))
-                  (asdf:system-depends-on object))))
+  (remove-if (lambda (sys)
+               (or (null sys)
+                   (find (asdf:component-name sys) *excluded*
+                         :test #'string-equal)))
+             (mapcar (lambda (dependency-def)
+                       (asdf:find-system (dependency-name dependency-def)))
+                     (asdf:system-depends-on object))))
 
 
 (defun visualize-asdf-hierarchy (target-png &optional (seed-systems (asdf:registered-systems)) (mode 'dependson))

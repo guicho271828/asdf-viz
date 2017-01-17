@@ -5,9 +5,17 @@ exec ros -Q -- $0 "$@"
 |#
 (ql:quickload :asdf-viz :silent t)
 (in-package :asdf-viz)
+
 (defun main (&rest argv)
   (declare (ignorable argv))
   (match argv
+    (nil
+     (format *error-output* "Usage: asdf-viz [[-e excluded system]...] [png-path] [asdf-systems...]~%")
+     (format *error-output* "Example: asdf-viz asdf-viz.png asdf-viz~%")
+     1)
+    ((list* "-e" excluded rest)
+     (let ((*excluded* (cons excluded *excluded*)))
+       (apply #'main rest)))
     ((list* png systems)
      (dolist (s systems)
        (handler-case
