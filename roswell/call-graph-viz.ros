@@ -1,0 +1,56 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(ql:quickload :asdf-viz :silent t)
+(in-package :asdf-viz.call-graph)
+
+(defvar *packages* nil)
+(defvar *functions* nil)
+(defvar *include* nil)
+
+(defun main (&rest argv)
+  (declare (ignorable argv))
+  (match argv
+    (nil
+     (format *error-output* "
+Usage: call-graph-viz [-i] [[-s asdf-system]...] [[-p package]...] [[-f functions]...] png-path
+
+  -i specifies if the leaf node can contain symbols outside the specified packages.
+  -s == --system , -p == --package , -f == --function , -i = --include-outside-calls
+  Package names are automatically upcased.
+
+Examples:
+
+call-graph-viz -s alexandria -p alexandria -f alexandria:symbolicate symbolicate.png
+ -- Visualize the call graph of alexandria:symbolicat
+
+call-graph-viz -s alexandria -p alexandria alexandria.png
+ -- Visualize the call graph of all external fbound symbols in alexandria
+
+call-graph-viz -s alexandria -f alexandria:symbolicate symbolicate2.png
+ -- Visualize the call graph of alexandria:symbolicate . Nodes are limited to alexandria
+")
+     1)
+    ((list* (or "-s" "--system") system rest)
+     (ql:quickload system :silent t)
+     (apply #'main rest))
+    ((list* (or "-p" "--package") pkg rest)
+     (push pkg *packages*)
+     (apply #'main rest))
+    ((list* (or "-f" "--function") fn rest)
+     (push fn *functions*)
+     (apply #'main rest))
+    ((list* (or "-i" "--include-outside-calls") rest)
+     (setf *include* t)
+     (apply #'main rest))
+    ((list png)
+     (let ((functions (mapcar #'read-from-string *functions*))
+           (packages (mapcar #'find-package (mapcar #'string-upcase *packages*))))
+       (visualize-callgraph
+        png
+        (or packages (remove-duplicates (mapcar #'symbol-package functions)))
+        :seeds functions
+        :include-outside-calls *include*))
+     (format t "~a~%" png))))

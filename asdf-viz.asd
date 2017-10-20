@@ -15,7 +15,7 @@
   :author "Masataro Asai"
   :mailto "guicho2.71828@gmail.com"
   :license "LLGPL"
-  :depends-on (:iterate :cl-dot :trivia)
+  :depends-on (:iterate :cl-dot :trivia :swank)
   :components ((:module "src"
                 :components
                 ((:file "asdf")
