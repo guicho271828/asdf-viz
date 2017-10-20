@@ -14,7 +14,8 @@ exec ros -Q -- $0 "$@"
   (declare (ignorable argv))
   (match argv
     (nil
-     (let ((s (read-from-string (ros:opt "script"))))
+     (let ((s #+nil (read-from-string (ros:opt "script"))
+              "call-graph-viz"))
        (format *error-output* "
 Usage: call-graph-viz [-i] [[-s asdf-system]...] [[-p package]...] [[-f functions]...] png-path
 
