@@ -4,6 +4,8 @@
 This is a roswell-compatible command-line utility distributed by quicklisp,
 useful for visualizing the indirect library dependencies of asdf systems.
 
+*NEWS* We added another utility =call-graph-viz= which can visualize the call graph of a function.
+
 ** Usage
 
 + =$ asdf-viz [output.png] [system-name]...=
@@ -11,6 +13,35 @@ useful for visualizing the indirect library dependencies of asdf systems.
 Sample output of =asdf-viz asdf-viz.png asdf-viz= :
 
 [[./asdf-viz.png]]
+
+#+begin_src 
+Usage: call-graph-viz [-i] [[-s asdf-system]...] [[-p package]...] [[-f functions]...] png-path
+
+  -i specifies if the leaf node can contain symbols outside the specified packages.
+  -s == --system , -p == --package , -f == --function , -i = --include-outside-calls
+  Package names are automatically upcased.
+
+Examples:
+
+call-graph-viz -s alexandria -p alexandria -f alexandria:symbolicate symbolicate.png
+call-graph-viz -s alexandria -f alexandria:symbolicate symbolicate.png
+ -- Visualize the call graph of alexandria:symbolicate .
+    The second example has the same meaning, where -p option is inferred from the symbol package.
+
+call-graph-viz -i -s alexandria -f alexandria:symbolicate symbolicate2.png
+ -- Visualize the call graph of alexandria:symbolicate . Leaf nodes include symbols outside alexandria.
+
+call-graph-viz -s alexandria -p alexandria alexandria.png
+ -- Visualize the call graph of all external fbound symbols in alexandria
+#+end_src
+
+Sample output of above examples:
+
+[[./symbolicate.png]]
+
+[[./symbolicate2.png]]
+
+[[./alexandria.png]]
 
 ** Dependencies
 

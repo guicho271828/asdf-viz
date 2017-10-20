@@ -25,14 +25,16 @@ Usage: call-graph-viz [-i] [[-s asdf-system]...] [[-p package]...] [[-f function
 Examples:
 
 ~a -s alexandria -p alexandria -f alexandria:symbolicate symbolicate.png
- -- Visualize the call graph of alexandria:symbolicat
+~a -s alexandria -f alexandria:symbolicate symbolicate.png
+ -- Visualize the call graph of alexandria:symbolicate .
+    The second example has the same meaning, where -p option is inferred from the symbol package.
+
+~a -i -s alexandria -f alexandria:symbolicate symbolicate2.png
+ -- Visualize the call graph of alexandria:symbolicate . Leaf nodes include symbols outside alexandria.
 
 ~a -s alexandria -p alexandria alexandria.png
  -- Visualize the call graph of all external fbound symbols in alexandria
-
-~a -s alexandria -f alexandria:symbolicate symbolicate2.png
- -- Visualize the call graph of alexandria:symbolicate . Nodes are limited to alexandria
-" s s s))
+" s s s s))
      1)
     ((list* (or "-s" "--system") system rest)
      (ql:quickload system :silent t)
