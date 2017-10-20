@@ -20,4 +20,4 @@
                 :components
                 ((:file "asdf")
                  (:file "call-graph"))))
-  :description "visualize the library dependency of an asdf/quicklisp system")
+  :description "Visualizes the dependencies between asdf systems / Visualize the function call graph.")
