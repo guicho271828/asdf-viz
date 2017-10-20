@@ -18,5 +18,6 @@
   :depends-on (:iterate :cl-dot :trivia)
   :components ((:module "src"
                 :components
-                ((:file "asdf"))))
+                ((:file "asdf")
+                 (:file "call-graph"))))
   :description "visualize the library dependency of an asdf/quicklisp system")
