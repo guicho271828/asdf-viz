@@ -41,7 +41,10 @@
       (warn "Error while listing the callees of symbol ~a" symbol))))
 
 (defun belongs-to-packages (packages symbol)
-  (some (lambda (package) (eq symbol (find-symbol (symbol-name symbol) package)))
+  (some (lambda (package)
+          (multiple-value-bind (s2 status) (find-symbol (symbol-name symbol) package)
+            (and (not (eq :inherited status))
+                 (eq symbol s2))))
         packages))
 
 (defmethod graph-object-points-to ((graph call-graph) (object symbol))
