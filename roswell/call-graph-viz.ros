@@ -14,7 +14,8 @@ exec ros -Q -- $0 "$@"
   (declare (ignorable argv))
   (match argv
     (nil
-     (format *error-output* "
+     (let ((s (read-from-string (ros:opt "script"))))
+       (format *error-output* "
 Usage: call-graph-viz [-i] [[-s asdf-system]...] [[-p package]...] [[-f functions]...] png-path
 
   -i specifies if the leaf node can contain symbols outside the specified packages.
@@ -23,15 +24,15 @@ Usage: call-graph-viz [-i] [[-s asdf-system]...] [[-p package]...] [[-f function
 
 Examples:
 
-call-graph-viz -s alexandria -p alexandria -f alexandria:symbolicate symbolicate.png
+~a -s alexandria -p alexandria -f alexandria:symbolicate symbolicate.png
  -- Visualize the call graph of alexandria:symbolicat
 
-call-graph-viz -s alexandria -p alexandria alexandria.png
+~a -s alexandria -p alexandria alexandria.png
  -- Visualize the call graph of all external fbound symbols in alexandria
 
-call-graph-viz -s alexandria -f alexandria:symbolicate symbolicate2.png
+~a -s alexandria -f alexandria:symbolicate symbolicate2.png
  -- Visualize the call graph of alexandria:symbolicate . Nodes are limited to alexandria
-")
+" s s s))
      1)
     ((list* (or "-s" "--system") system rest)
      (ql:quickload system :silent t)
