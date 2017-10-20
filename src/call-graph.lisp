@@ -29,7 +29,7 @@
 
 (defmethod graph-object-node ((graph call-graph) (object symbol))
   (make-instance 'node
-                 :attributes (list :label (symbol-name object)
+                 :attributes (list :label (princ-to-string object)
                                    :shape :octagon
                                    :style :filled
                                    :fillcolor "#eeeeff")))
