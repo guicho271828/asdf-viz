@@ -41,14 +41,16 @@
       (warn "Error while listing the callees of symbol ~a" symbol))))
 
 (defun belongs-to-packages (packages fname)
-  (ematch fname
+  (match fname
     ((or (list 'setf symbol)
          (and symbol (symbol)))
      (some (lambda (package)
              (multiple-value-bind (s2 status) (find-symbol (symbol-name symbol) package)
                (and (not (eq :inherited status))
                     (eq symbol s2))))
-           packages))))
+           packages))
+    (_
+     (warn "unknown/nonstandard type of function name: ~a" fname))))
 
 (defmethod graph-object-points-to ((graph call-graph) (object symbol))
   (ematch graph
