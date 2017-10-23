@@ -40,16 +40,36 @@
     (error ()
       (warn "Error while listing the callees of symbol ~a" symbol))))
 
-(defun belongs-to-packages (packages symbol)
-  (some (lambda (package)
-          (multiple-value-bind (s2 status) (find-symbol (symbol-name symbol) package)
-            (and (not (eq :inherited status))
-                 (eq symbol s2))))
-        packages))
+(defun belongs-to-packages (packages fname)
+  (ematch fname
+    ((or (list 'setf symbol)
+         (and symbol (symbol)))
+     (some (lambda (package)
+             (multiple-value-bind (s2 status) (find-symbol (symbol-name symbol) package)
+               (and (not (eq :inherited status))
+                    (eq symbol s2))))
+           packages))))
 
 (defmethod graph-object-points-to ((graph call-graph) (object symbol))
-  (match graph
+  (ematch graph
     ((call-graph packages include-outside-calls)
+     (when (belongs-to-packages packages object)
+       (if include-outside-calls
+           (callees object)
+           (remove-if-not (lambda (s) (belongs-to-packages packages s))
+                          (callees object)))))))
+
+(defmethod graph-object-node ((graph call-graph) (object list))
+  (make-instance 'node
+                 :attributes (list :label (princ-to-string object)
+                                   :shape :octagon
+                                   :style :filled
+                                   :fillcolor "#eeeeff")))
+
+(defmethod graph-object-points-to ((graph call-graph) (object list))
+  (ematch* (graph object)
+    (((call-graph packages include-outside-calls)
+      (list 'setf object))
      (when (belongs-to-packages packages object)
        (if include-outside-calls
            (callees object)
