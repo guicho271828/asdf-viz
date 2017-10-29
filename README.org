@@ -15,11 +15,17 @@ Sample output of =asdf-viz asdf-viz.png asdf-viz= :
 [[./asdf-viz.png]]
 
 #+begin_src 
-Usage: call-graph-viz [-i] [[-s asdf-system]...] [[-p package]...] [[-f functions]...] png-path
+Usage: call-graph-viz [options...] png-path
 
-  -i specifies if the leaf node can contain symbols outside the specified packages.
-  -s == --system , -p == --package , -f == --function , -i = --include-outside-calls
-  Package names are automatically upcased.
+source options
+  -s / --system SYSTEM : Quickload the system in the beginning. (specified multiple times, accumulates)
+  -l / --load FILE     : Load the FILE before the visualization.(specified multiple times, accumulates)
+
+filter options
+  -p / --package PKG   : Limit the symbols to the package.      (specified multiple times, accumulates)
+                         Package names are automatically upcased.
+  -f / --function FN   : Specify the root nodes..               (specified multiple times, accumulates)
+  -i / --include-outside-calls : Specifies if the leaf node can contain symbols outside the specified packages.
 
 Examples:
 
