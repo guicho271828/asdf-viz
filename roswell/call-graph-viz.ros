@@ -22,6 +22,8 @@ Usage: call-graph-viz [options...] png-path
 source options
   -s / --system SYSTEM : Quickload the system in the beginning. (specified multiple times, accumulates)
   -l / --load FILE     : Load the FILE before the visualization.(specified multiple times, accumulates)
+  -r / --ros FILE      : Load a .ros script before the visualization. (specified multiple times, accumulates)
+                         This avoids the problem of shebangs in roswell scripts.
 
 filter options
   -p / --package PKG   : Limit the symbols to the package.      (specified multiple times, accumulates)
@@ -50,6 +52,10 @@ Examples:
      (push pkg *packages*)
      (apply #'main rest))
     ((list* (or "-l" "--load") file rest)
+     (load file)
+     (apply #'main rest))
+    ((list* (or "-r" "--ros") file rest)
+     (roswell:ignore-shebang)
      (load file)
      (apply #'main rest))
     ((list* (or "-f" "--function") fn rest)
