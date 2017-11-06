@@ -15,9 +15,10 @@
   :author "Masataro Asai"
   :mailto "guicho2.71828@gmail.com"
   :license "LLGPL"
-  :depends-on (:iterate :cl-dot :trivia :swank)
+  :depends-on (:iterate :cl-dot :trivia :swank :closer-mop)
   :components ((:module "src"
                 :components
                 ((:file "asdf")
-                 (:file "call-graph"))))
+                 (:file "call-graph")
+                 (:file "class-hierarchy"))))
   :description "Visualizes the dependencies between asdf systems / Visualize the function call graph.")

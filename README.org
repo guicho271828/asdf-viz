@@ -1,18 +1,22 @@
 
 * ASDF-VIZ
 
-This is a roswell-compatible command-line utility distributed by quicklisp,
-useful for visualizing the indirect library dependencies of asdf systems.
+This is a set of command line utilities for visualizing various object hierarchies of a lisp system.
+They are roswell-compatible command-line utilities distributed by quicklisp.
+Command installation is done by =ros install asdf-viz=.
+
 
 *NEWS* We added another utility =call-graph-viz= which can visualize the call graph of a function.
 
-** Usage
+** asdf-viz -- visualizing the library dependencies of asdf systems.
 
 + =$ asdf-viz [output.png] [system-name]...=
 
 Sample output of =asdf-viz asdf-viz.png asdf-viz= :
 
 [[./asdf-viz.png]]
+
+** call-graph-viz -- visualizing the call graph
 
 #+begin_src 
 Usage: call-graph-viz [options...] png-path
@@ -43,13 +47,27 @@ call-graph-viz -s alexandria -p alexandria alexandria.png
  -- Visualize the call graph of all external fbound symbols in alexandria
 #+end_src
 
-Sample output of above examples:
+Example outputs:
 
 [[./symbolicate.png]]
 
 [[./symbolicate2.png]]
 
 [[./alexandria.png]]
+
+** class-viz -- visualizing the class hierarchy
+
+#+begin_src 
+Usage: class-viz [-s|--system system]* [png-path] [class names...]
+Example: class-viz asdf.png asdf:component
+Example: class-viz -s plump plump.png plump:node
+#+end_src
+
+Example outputs:
+
+[[./asdf.png]]
+
+[[./plump.png]]
 
 ** Dependencies
 

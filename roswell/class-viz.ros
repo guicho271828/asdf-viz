@@ -1,0 +1,27 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(ql:quickload :asdf-viz :silent t)
+(in-package :asdf-viz.class-hierarchy)
+
+(defun main (&rest argv)
+  (declare (ignorable argv))
+  (match argv
+    (nil
+     (format *error-output* "Usage: class-viz [-s|--system system]* [png-path] [class names...]~%")
+     (format *error-output* "Example: class-viz asdf.png asdf:component~%")
+     (format *error-output* "Example: class-viz -s plump plump.png plump:node~%")
+     1)
+    ((list* (or "-s" "--system") s rest)
+     (handler-case
+         (ql:quickload s :silent t)
+       (quicklisp-client:system-not-found ()
+         (format *error-output* "System ~a not located by quicklisp, skipping" s))
+       (error (c)
+         (format *error-output* "~a occured during quickloading system ~a, skipping"
+                 (type-of c) s)))
+     (apply #'main rest))
+    ((list* png classes)
+     (visualize-class-hierarchy png (mapcar #'read-from-string classes)))))
