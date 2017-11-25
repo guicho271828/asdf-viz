@@ -6,7 +6,11 @@ They are roswell-compatible command-line utilities distributed by quicklisp.
 Command installation is done by =ros install asdf-viz=.
 
 
-*NEWS* We added another utility =call-graph-viz= which can visualize the call graph of a function.
+*NEWS Oct 20, 2017* We added another utility =call-graph-viz= which can visualize the call graph of a function.
+
+*NEWS Nov 6, 2017* We added another utility =class-viz= which visualizes the class inheritances.
+
+*NEWS Nov 25, 2017* We have a license flag -l / --licence for =asdf-viz=.
 
 ** asdf-viz -- visualizing the library dependencies of asdf systems.
 
