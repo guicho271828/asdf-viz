@@ -10,9 +10,10 @@ Command installation is done by =ros install asdf-viz=.
 
 ** asdf-viz -- visualizing the library dependencies of asdf systems.
 
-+ =$ asdf-viz [output.png] [system-name]...=
++ Simple usage: =$ asdf-viz [output.png] [system-name]...=
++ Complex usage: =$ asdf-viz [[-e|--exclude SYSTEM]...] [-l|--license] PNG-PATH [SYSTEM...]=
 
-Sample output of =asdf-viz asdf-viz.png asdf-viz= :
+Sample output of =asdf-viz -l asdf-viz.png asdf-viz= :
 
 [[./asdf-viz.png]]
 
