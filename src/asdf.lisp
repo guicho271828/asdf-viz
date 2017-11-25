@@ -7,10 +7,14 @@
 (in-package :asdf-viz)
 
 (defvar *excluded* nil)
+(defvar *license* nil)
 
 (defmethod graph-object-node ((graph (eql 'dependson)) (object asdf:component))
   (make-instance 'node
-                 :attributes (list :label (asdf:component-name object)
+                 :attributes (list :label (format nil "~a~:[~*~; (~a)~]"
+                                                  (asdf:component-name object)
+                                                  *license*
+                                                  (asdf:system-license object))
                                    :shape :octagon
                                    :style :filled
                                    :fillcolor "#eeeeff")))

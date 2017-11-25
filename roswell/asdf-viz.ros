@@ -10,11 +10,14 @@ exec ros -Q -- $0 "$@"
   (declare (ignorable argv))
   (match argv
     (nil
-     (format *error-output* "Usage: asdf-viz [[-e excluded system]...] [png-path] [asdf-systems...]~%")
+     (format *error-output* "Usage: asdf-viz [[-e|--exclude SYSTEM]...] [-l|--license] PNG-PATH [SYSTEM...]~%")
      (format *error-output* "Example: asdf-viz asdf-viz.png asdf-viz~%")
      1)
     ((list* (or "-e" "--exclude") excluded rest)
      (let ((*excluded* (cons excluded *excluded*)))
+       (apply #'main rest)))
+    ((list* (or "-l" "--license") rest)
+     (let ((*license* t))
        (apply #'main rest)))
     ((list* png systems)
      (dolist (s systems)
