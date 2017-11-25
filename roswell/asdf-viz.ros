@@ -17,7 +17,7 @@ Complex usage: $ asdf-viz [[-e|--exclude SYSTEM]...] [-l|--license] PNG-PATH [SY
 Example:
   asdf-viz asdf-viz.png asdf-viz               --- basic usage
   asdf-viz -l asdf-viz.png asdf-viz            --- display the license on each node
-  asdf-viz -e iterate -l asdf-viz.png asdf-viz --- excludes iterate from the output")
+  asdf-viz -e iterate -l asdf-viz.png asdf-viz --- excludes iterate from the output  ~%")
      1)
     ((list* (or "-e" "--exclude") excluded rest)
      (let ((*excluded* (cons excluded *excluded*)))
