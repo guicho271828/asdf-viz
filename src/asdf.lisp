@@ -19,6 +19,16 @@
                                    :style :filled
                                    :fillcolor "#eeeeff")))
 
+(defmethod graph-object-node ((graph (eql 'dependson)) (object asdf:require-system))
+  (make-instance 'node
+                 :attributes (list :label (format nil "~a~:[~*~; (~a)~]"
+                                                  (asdf:component-name object)
+                                                  *license*
+                                                  (asdf:system-license object))
+                                   :shape :rect
+                                   :style :filled
+                                   :fillcolor "#eeffee")))
+
 (defun dependency-name (dependency-def)
   #|
   https://common-lisp.net/project/asdf/asdf.html#The-defsystem-grammar
@@ -28,18 +38,19 @@
   | ( :require module-name )
   |#
   (ematch dependency-def
-    ((list* :feature _ rest) (dependency-name rest))
+    ((list :feature _ def) (dependency-name def))
     ((list :version name _) name)
     ((list :require module-name) module-name)
     (name name)))
 
 (defmethod graph-object-points-to ((graph (eql 'dependson)) (object asdf:system))
-  (remove-if (lambda (sys)
-               (or (null sys)
-                   (find (asdf:component-name sys) *excluded*
-                         :test #'string-equal)))
+  (remove-if #'null
              (mapcar (lambda (dependency-def)
-                       (asdf:find-system (dependency-name dependency-def)))
+                       (let ((name (dependency-name dependency-def)))
+                         (unless (find name *excluded* :test #'string-equal)
+                           (handler-case (asdf:find-system name)
+                             (asdf:missing-component ()
+                               dependency-def)))))
                      (asdf:system-depends-on object))))
 
 

@@ -12,6 +12,8 @@ Command installation is done by =ros install asdf-viz=.
 
 *NEWS Nov 25, 2017* We have a license flag -l / --licence for =asdf-viz=.
 
+*NEWS Sep 19, 2018* System-provided =asdf:require-system= systems (e.g. =sb-introsoect=) are plotted in a different shape/color. (See weblocks examples)
+
 ** asdf-viz -- visualizing the library dependencies of asdf systems.
 
 + Simple usage: =$ asdf-viz [output.png] [system-name]...=
@@ -20,6 +22,8 @@ Command installation is done by =ros install asdf-viz=.
 Sample output of =asdf-viz -l asdf-viz.png asdf-viz= :
 
 [[./asdf-viz.png]]
+
+[[./weblocks.png]]
 
 ** call-graph-viz -- visualizing the call graph
 
