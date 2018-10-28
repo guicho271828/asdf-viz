@@ -29,6 +29,16 @@
                                    :style :filled
                                    :fillcolor "#eeffee")))
 
+
+(defmethod graph-object-node ((graph (eql 'dependson)) (object cons))
+  "If the object is something like (:feature :sbcl (:require :sb-introspect)) then
+this method generates a reasonable label."
+  (make-instance 'node
+                 :attributes (list :label (format nil "~s" object)
+                                   :shape :rect
+                                   :style :filled
+                                   :fillcolor "#ffeeee")))
+
 (defun dependency-name (dependency-def)
   #|
   https://common-lisp.net/project/asdf/asdf.html#The-defsystem-grammar
