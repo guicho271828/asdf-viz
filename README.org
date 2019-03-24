@@ -25,6 +25,8 @@ Sample output of =asdf-viz -l asdf-viz.png asdf-viz= :
 
 [[./weblocks.png]]
 
+[[./spinneret.png]]
+
 ** call-graph-viz -- visualizing the call graph
 
 #+begin_src 
