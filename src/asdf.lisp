@@ -54,14 +54,14 @@ this method generates a reasonable label."
     (name name)))
 
 (defmethod graph-object-points-to ((graph (eql 'dependson)) (object asdf:system))
-  (remove-if #'null
-             (mapcar (lambda (dependency-def)
-                       (let ((name (dependency-name dependency-def)))
-                         (unless (find name *excluded* :test #'string-equal)
-                           (handler-case (asdf:find-system name)
-                             (asdf:missing-component ()
-                               dependency-def)))))
-                     (asdf:system-depends-on object))))
+  (remove nil
+          (mapcar (lambda (dependency-def)
+                    (let ((name (dependency-name dependency-def)))
+                      (unless (find name *excluded* :test #'string-equal)
+                        (handler-case (asdf:find-system name)
+                          (asdf:missing-component ()
+                            dependency-def)))))
+                  (asdf:system-depends-on object))))
 
 
 (defun visualize-asdf-hierarchy (target-png &optional (seed-systems (asdf:registered-systems)) (mode 'dependson))
