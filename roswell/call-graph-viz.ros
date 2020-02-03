@@ -1,7 +1,7 @@
 #!/bin/sh
 #|-*- mode:lisp -*-|#
 #|
-exec ros -L sbcl-bin  -m call-graph-viz -Q -- $0 "$@"
+exec ros -L sbcl-bin dynamic-space-size=4000 -m call-graph-viz -Q -- $0 "$@"
 |#
 (ql:quickload :asdf-viz :silent t)
 (in-package :asdf-viz.call-graph)
