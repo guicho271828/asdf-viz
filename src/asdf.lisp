@@ -14,7 +14,12 @@
                  :attributes (list :label (format nil "~a~:[~*~; (~a)~]"
                                                   (asdf:component-name object)
                                                   *license*
-                                                  (asdf:system-license object))
+                                                  ;; For some reason asdf:system-license
+                                                  ;; fails on some systems like :UIOP
+                                                  ;; because asdf:primary-system-name returns NIL
+                                                  ;; for them.
+                                                  (when (asdf:primary-system-name object)
+                                                    (asdf:system-license object)))
                                    :shape :octagon
                                    :style :filled
                                    :fillcolor "#eeeeff")))
